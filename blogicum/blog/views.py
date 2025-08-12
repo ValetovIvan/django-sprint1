@@ -1,6 +1,18 @@
+from typing import List, TypedDict
+
+from django.http import Http404
 from django.shortcuts import render
 
-posts = [
+
+class Post(TypedDict):
+    id: int
+    location: str
+    date: str
+    category: str
+    text: str
+
+
+posts: List[Post] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -43,20 +55,23 @@ posts = [
     },
 ]
 
+posts_dict = {post['id']: post for post in posts}
+
 
 def index(request):
-    template = 'blog/index.html'
-    context = {'posts': reversed(posts)}
-    return render(request, template, context)
+    return render(
+        request, 'blog/index.html', {'posts': list(reversed(posts))}
+    )
 
 
-def post_detail(request, pk):
-    template = 'blog/detail.html'
-    context = {'post': posts[pk]}
-    return render(request, template, context)
+def post_detail(request, post_id):
+    try:
+        context = {'post': posts_dict[post_id]}
+    except KeyError:
+        raise Http404("Пост не найден")
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
     context = {'category': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)

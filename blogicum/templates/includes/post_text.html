@@ -1,0 +1,13 @@
+<article>
+  <ul>
+      {% include "includes/post_info.html" %}
+  </ul>
+  <p>
+    {% if request.resolver_match.view_name == 'blog:post_detail' %}
+       {{ post.text|linebreaks }}
+    {% else %}
+      {{ post.text|truncatewords:10|linebreaks }}
+      <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
+    {% endif %}
+  </p>
+</article>
