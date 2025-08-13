@@ -1,18 +1,7 @@
-from typing import List, TypedDict
-
 from django.http import Http404
 from django.shortcuts import render
 
-
-class Post(TypedDict):
-    id: int
-    location: str
-    date: str
-    category: str
-    text: str
-
-
-posts: List[Post] = [
+posts: list[dict] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -68,7 +57,7 @@ def post_detail(request, post_id):
     try:
         context = {'post': posts_dict[post_id]}
     except KeyError:
-        raise Http404("Пост не найден")
+        raise Http404('Пост не найден')
     return render(request, 'blog/detail.html', context)
 
 

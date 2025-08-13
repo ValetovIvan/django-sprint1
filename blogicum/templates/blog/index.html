@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}
   Лента записей
 {% endblock %}
@@ -7,6 +7,6 @@
 <!-- Перебираем в цикле все посты -->
   {% for post in posts %}
   <hr>
-  {% include "includes/post_text.html" %}
+  {% include 'includes/post_text.html' %}
   {% endfor %}
 {% endblock %}
